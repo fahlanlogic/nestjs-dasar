@@ -67,4 +67,13 @@ export class UserController {
     response.cookie('name', name);
     response.status(200).send('Success set cookie!');
   }
+
+  // generate view
+  @Get('/view/hello')
+  viewHello(@Query('name') name: string, @Res() response: Response) {
+    response.render('index.html', {
+      title: 'Template Engine!',
+      name: name,
+    });
+  }
 }

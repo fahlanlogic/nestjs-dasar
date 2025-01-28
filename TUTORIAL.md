@@ -24,9 +24,41 @@
   | @Next()               | untuk express.Nextfunction  |
 
 # Set Cookie
-Kita perlu install package cookie-parser, lalu gunakan di main.ts seperti ini `app.use(cookieParser(process.env.COOKIE_PASSWORD))` dan bisa langsung digunakan dengan notation @Res dari express.Response seperti ini :
+Kita perlu install package cookie-parser, lalu gunakan di main.ts seperti ini `app.use(cookieParser(process.env.COOKIE_PASSWORD))` dan bisa langsung digunakan di-controller dengan notation @Res dari express.Response seperti ini :
 ```javascript  
 setCookie(@Query('name') name: string, @Res() response: Response) {
   response.cookie('name', name);
   response.status(200).send('Success set cookie!');
 }
+```
+
+# View
+Untuk bisa menggunakan view, sama seperti express kita perlu menginstall package **mustache-express**. Setelah terinstall berikut kita harus set di `main.ts` seperti berikut:
+```javascript
+import * as mustache from 'mustache-express';
+
+// didalam bootstrap
+app.set('view engine', 'html');
+app.set('views', __dirname + '/../views');
+app.engine('html', mustache());
+```
+
+Karena kita memakai turunan/karakteristik dari express, kita harus memakai interface dari `NestExpressApplication`, ubah variable app-nya jadi seperti ini :
+```javascript
+import { NestExpressApplication } from '@nestjs/platform-express';
+
+// didalam bootstrap
+const app = await NestFactory.create<NestExpressApplication>(AppModule);
+```
+
+Setelah set up selesai, jangan lupa buat folder views (sejajar dengan src) dan buat file index.html didalamnya. Jika sudah maka buat controller view seperti berikut :
+```javascript
+@Get('/view/hello')
+viewHello(@Query('name') name: string, @Res() response: Response) {
+  response.render('index.html', {
+    title: 'Template Engine!',
+    name: name,
+  });
+}
+```
+argument pertama dari `response.render` adalah target dari output view-nya, dan object didalamnya mengatur nilai dari isi index.html itu sendiri (bisa lihat [disini](views/index.html))
