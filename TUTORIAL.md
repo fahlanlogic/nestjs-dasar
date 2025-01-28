@@ -22,3 +22,11 @@
   | @Header(key, value)   | untuk response header       |
   | @Redirect(loc, code)  | untuk redirect endpoint     |
   | @Next()               | untuk express.Nextfunction  |
+
+# Set Cookie
+Kita perlu install package cookie-parser, lalu gunakan di main.ts seperti ini `app.use(cookieParser(process.env.COOKIE_PASSWORD))` dan bisa langsung digunakan dengan notation @Res dari express.Response seperti ini :
+```javascript  
+setCookie(@Query('name') name: string, @Res() response: Response) {
+  response.cookie('name', name);
+  response.status(200).send('Success set cookie!');
+}
