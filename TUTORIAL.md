@@ -3,7 +3,6 @@
   |---------------|----------|
   | `nest generate module <nama> <path>`     | untuk generate module |
   | `nest generate controller <nama> <path>` | untuk generate controller |
-<br>
 
 # HTTP Request
   | Decorator     | Kegunaan |
@@ -15,7 +14,6 @@
   | @Header(key?) | untuk req.header.key? |
   | @Ip()         | untuk req.ip          |
   | @HostParam()  | untuk req.hosts       |
-<br>
 
 # HTTP Response
   | Decorator             | Kegunaan |

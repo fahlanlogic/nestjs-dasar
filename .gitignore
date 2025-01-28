@@ -2,6 +2,7 @@
 /dist
 /node_modules
 /build
+/.jetclient
 
 # Logs
 logs
