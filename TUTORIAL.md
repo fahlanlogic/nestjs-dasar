@@ -62,3 +62,23 @@ viewHello(@Query('name') name: string, @Res() response: Response) {
 }
 ```
 argument pertama dari `response.render` adalah target dari output view-nya, dan object didalamnya mengatur nilai dari isi index.html itu sendiri (bisa lihat [disini](views/index.html))
+
+# Unit Test
+Unit test pada NestJS mirip seperti ExpressJS, namun jika ingin mengambil response kita harus membuat mock terlebih dahulu (tidak bisa langsung explist), gunakan library dari **node-mocks-http** agar lebih mudah, pasang package-nya dan gunakan difile `example.controller.spec.ts` dengan cara seperti berikut :
+```javascript
+// panggil semua class-nya sebaagai httpMock
+import * as httpMock from 'node-mocks-http';
+
+it('should show view template', async () => {
+  // buat variable response-nya
+  const response = httpMock.createResponse();
+  controller.viewHello('Fahdi', response);
+
+  // karena controller-nya untuk view jadi pakai ._getRenderView
+  expect(response._getRenderView()).toBe('index.html');
+  expect(response._getRenderData()).toEqual({
+    title: 'Template Engine!',
+    name: 'Fahdi',
+  })
+})
+```
